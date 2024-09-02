@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Management Tool</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <h1>File Management Tool</h1>
+    <div class="container">
+        <div class="form-group">
+            <h2>Create a File</h2>
+            <form action="/create" method="POST">
+                <input type="text" id="createFile" name="filename" placeholder="Enter file name" required>
+                <button type="submit">Create File</button>
+            </form>
+        </div>
+        <div class="form-group">
+            <h2>Read a File</h2>
+            <form id="readForm" action="/read" method="GET">
+                <input type="text" id="readFile" name="filename" placeholder="Enter file name" required>
+                <button type="submit">Read File</button>
+            </form>
+            <pre id="fileContent"></pre>
+        </div>
+        <div class="form-group">
+            <h2>Delete a File</h2>
+            <form action="/delete" method="POST">
+                <input type="text" id="deleteFile" name="filename" placeholder="Enter file name" required>
+                <button type="submit">Delete File</button>
+            </form>
+        </div>
+    </div>
+    <script>
+        document.getElementById('readForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const file = document.getElementById('readFile').value;
+            fetch(`/read?filename=${file}`)
+                .then(response => response.text())
+                .then(data => document.getElementById('fileContent').innerText = data)
+                .catch(error => document.getElementById('fileContent').innerText = 'Error reading file');
+        });
+    </script>
+</body>
+
+</html>
